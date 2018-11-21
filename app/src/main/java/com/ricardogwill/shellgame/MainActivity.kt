@@ -1,9 +1,12 @@
 package com.ricardogwill.shellgame
 
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClickListener {
@@ -41,9 +44,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
         shuffleB.setOnClickListener(this)
 
         shuffleB.setOnLongClickListener(this)
+
+        startB.setOnLongClickListener(this)
     }
 
     override fun onLongClick(v: View?): Boolean {
+//        when (v?.id) {
+//            R.id.shuffleB -> firstInitialize()
+//            R.id.startB -> firstInitialize()
+//        }
         firstInitialize()
         return true
     }
@@ -113,10 +122,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
             oddsTV.setText("You are on par with the odds...")
         }
 
+        if (wins + losses >= 10) {
+            oddsTV.setTextSize(40.0f)
+            endGame()
+
+            if (winRate > 33.4) {
+                oddsTV.setTextColor(Color.parseColor("#000099"))
+                oddsTV.setText("★You beat the odds!★")
+            } else if (winRate < 33.3) {
+                oddsTV.setTextColor(Color.parseColor("#990000"))
+                oddsTV.setText("You lost to the odds...")
+            } else {
+                oddsTV.setTextColor(Color.parseColor("#770099"))
+                oddsTV.setText("You tied the odds.")
+            }
+        }
+
     }
 
     fun firstInitialize() {
         disallowClicks()
+        shuffleB.visibility = Button.VISIBLE
+        startB.visibility = Button.INVISIBLE
         choice1B.tag = ""
         choice1B.setText("")
         choice2B.tag = ""
@@ -125,7 +152,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
         choice3B.setText("")
         wins = 0.0
         losses = 0.0
+        explanationTV.setText("Instructions: Press \"Shuffle\", then try to choose the one button with a star hidng in it! Long-press \"Shuffle\" to re-start!")
+        explanationTV.setTextSize(24.0f)
         winsVSLossesTV.setText("")
+        oddsTV.setTextSize(24.0f)
+        oddsTV.setTextColor(Color.parseColor("#808080"))
         oddsTV.setText("")
         tallyTV.setText("")
     }
@@ -138,6 +169,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
         choice2B.setText("?")
         choice3B.tag = ""
         choice3B.setText("?")
+    }
+
+    fun endGame() {
+        shuffleB.visibility = Button.INVISIBLE
+        startB.visibility = Button.VISIBLE
+        explanationTV.setTextSize(40.0f)
+        explanationTV.setText("LONG-PRESS \"START\" BUTTON TO START A NEW GAME.")
+        disallowClicks()
+        shuffleB.isClickable = false
     }
 
     fun allowClicks() {
