@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClickListener {
@@ -49,10 +48,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
     }
 
     override fun onLongClick(v: View?): Boolean {
-//        when (v?.id) {
-//            R.id.shuffleB -> firstInitialize()
-//            R.id.startB -> firstInitialize()
-//        }
         firstInitialize()
         return true
     }
